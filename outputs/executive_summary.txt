@@ -1,0 +1,24 @@
+EXECUTIVE SUMMARY — 12-MONTH SALES FORECAST
+=======================================================
+Forecast period : 2026-01-01 to 2026-12-31
+Model used      : XGBoost (hold-out MAPE: 3.30%)
+
+SCENARIO TOTALS (12 months)
+  Conservative (-10%) :      17,312,210 BDT
+  Baseline            :      19,235,790 BDT
+  Optimistic (+10%)   :      21,159,368 BDT
+
+KEY OBSERVATIONS
+  - Peak sales month expected : 2026-03
+  - Lowest sales month expected: 2026-07
+  - Seasonal pattern: construction-material demand peaks Mar-Jun and
+    Oct-Nov; monsoon months (Jul-Aug) show a structural dip (~25-30%).
+
+RECOMMENDED ACTIONS
+  1. Align procurement and inventory build-up 4-6 weeks ahead of the
+     Mar-Jun and Oct-Nov peak periods.
+  2. Plan reduced working-capital exposure during Jul-Aug monsoon dip.
+  3. Use the conservative scenario for budget floor planning and the
+     optimistic scenario for upside capacity planning.
+  4. Re-run forecast monthly as new actuals arrive; retrain model
+     if MAPE drifts above 6% on rolling validation.

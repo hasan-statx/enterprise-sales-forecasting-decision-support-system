@@ -1,0 +1,55 @@
+{
+  "model_name": "Enterprise Sales Forecasting Model",
+  "version": "1.0.0",
+  "date_trained": "2026-06-18",
+  "owner": "Hasan Mahmud Sujan",
+  "objective": "Forecast daily/monthly aggregate sales to support inventory planning, procurement, and budget decisions",
+  "data_period": "2020-01-01 to 2025-12-31",
+  "target_variable": "sales (daily aggregate, BDT)",
+  "algorithm": "XGBoost Regressor (selected from 5 candidate models)",
+  "candidate_models_evaluated": [
+    "XGBoost",
+    "Prophet",
+    "Linear Regression",
+    "Random Forest",
+    "ARIMA(5,1,2)"
+  ],
+  "validation_method": "Chronological train/test split (90-day hold-out)",
+  "performance_holdout": {
+    "MAE": 4884.8,
+    "RMSE": 6045.3,
+    "MAPE_pct": 3.3
+  },
+  "features_used": [
+    "lag_1, lag_7, lag_14, lag_28 (autoregressive lags)",
+    "rolling_mean / rolling_std (7, 14, 30-day windows)",
+    "calendar features (day_of_week, month, quarter, week_of_year)",
+    "seasonal indicators (construction peak, post-monsoon peak, monsoon dip)",
+    "promo_share, pct_stores_open (operational covariates)",
+    "trend_days (linear time trend)"
+  ],
+  "scenario_methodology": {
+    "baseline": "Direct model output, recursive 12-month forward forecast",
+    "optimistic": "Baseline x 1.10",
+    "conservative": "Baseline x 0.90"
+  },
+  "assumptions": [
+    "Recent 90-day operational covariates (promo share, store openness) persist into the forecast horizon",
+    "No major structural shocks (e.g. new competitor entry, regulatory change)",
+    "Seasonal patterns observed in 2020-2025 continue to hold"
+  ],
+  "limitations": [
+    "Recursive multi-step forecasting accumulates error over the horizon \u2014 accuracy degrades beyond ~90 days",
+    "Does not explicitly model promotional calendar or marketing spend changes",
+    "Scenario bands (\u00b110%) are a simplified heuristic, not a statistically derived prediction interval",
+    "ARIMA underperformed substantially (MAPE 28%) on this dataset \u2014 likely due to strong exogenous seasonality not captured by a univariate model"
+  ],
+  "retraining_trigger": "Rolling MAPE > 6% on most recent 30 days OR quarterly schedule, whichever comes first",
+  "outputs": [
+    "forecast_results.csv \u2014 test-period predictions vs actuals",
+    "scenario_daily_forecast.csv / scenario_monthly_summary.csv \u2014 12-month forward projections",
+    "model_metrics.csv \u2014 full model comparison table",
+    "dashboard_mockup.png \u2014 executive dashboard",
+    "executive_summary.txt \u2014 management-facing narrative summary"
+  ]
+}
